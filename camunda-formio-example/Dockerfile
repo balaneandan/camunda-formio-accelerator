@@ -8,30 +8,20 @@ FROM maven:3.8.8-eclipse-temurin-17 AS builder
 # Setăm directorul de lucru
 WORKDIR /app
 
-# Copiem fișierele necesare pentru build
-COPY pom.xml .
+# Adăugăm credențialele pentru GitHub Packages
+ARG GITHUB_USERNAME
+ARG GITHUB_TOKEN
+RUN echo "<settings><servers><server><id>github-datakurre</id><username>${GITHUB_USERNAME}</username><password>${GITHUB_TOKEN}</password></server></servers></settings>" > /root/.m2/settings.xml
+
+# Copiem fișierele aplicației
 COPY . .
 
-# Construim aplicația (creăm fișierul .jar)
-RUN mvn clean package -DskipTests -Dlicense.skip=true
+# Construim aplicația
+RUN mvn clean package -DskipTests
 
-
-# Faza 2: Crearea imaginii finale mai mici
-FROM alpine:3
-
-# Instalăm doar OpenJDK 17 și bash
-RUN apk add --no-cache openjdk17-jre-headless bash
-
-# Setăm variabile de mediu și expunem portul
-ENV PORT=8080
-ENV CLASSPATH=/opt/lib
-EXPOSE 8080
-
-# Copiem doar fișierele necesare din prima fază (fără tot Maven)
-COPY --from=builder /app/target/*.jar /opt/app.jar
-COPY --from=builder /app/target/lib* /opt/lib/
-
+# Faza 2: Imaginea finală pentru rulare
+FROM openjdk:17-jdk-slim
 WORKDIR /opt
-
-# Pornim aplicația
+COPY --from=builder /app/target/*.jar /opt/app.jar
+EXPOSE 8080
 CMD ["java", "-jar", "app.jar"]
