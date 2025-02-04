@@ -1,4 +1,1 @@
 config
-*.log
-node_modules/
-target/
