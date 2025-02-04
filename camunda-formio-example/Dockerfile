@@ -1,3 +1,7 @@
+# Copyright 2025 Your Organization Name
+# Licensed under the Apache License, Version 2.0
+# See LICENSE file in the project root for more information.
+
 # Faza 1: Build cu Maven
 FROM maven:3.8.8-eclipse-temurin-17 AS builder
 
