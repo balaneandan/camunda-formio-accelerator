@@ -1,3 +1,9 @@
+# -----------------------------------------------------------------------------
+# Copyright 2025 Soft Cannery LTD.
+# Licensed under the Camunda Platform Accelerator for Form.io Community License v1.0
+# 
+# See the LICENSE file in the project root for more details.
+# -----------------------------------------------------------------------------
 # Faza 1: Construirea aplicației cu Maven
 FROM maven:3.8.8-eclipse-temurin-17 AS builder
 
