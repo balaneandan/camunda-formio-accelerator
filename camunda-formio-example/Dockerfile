@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copiem fișierele necesare pentru build
 COPY pom.xml .
-COPY src ./src
+COPY . .
 
 # Construim aplicația (creăm fișierul .jar)
 RUN mvn clean package -DskipTests
