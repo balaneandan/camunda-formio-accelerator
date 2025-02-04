@@ -13,7 +13,8 @@ COPY pom.xml .
 COPY . .
 
 # Construim aplicația (creăm fișierul .jar)
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -Dlicense.skip=true
+
 
 # Faza 2: Crearea imaginii finale mai mici
 FROM alpine:3
